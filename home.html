@@ -1926,16 +1926,17 @@ window.addEventListener("scroll", () => {
   <div class="footer-container">
 
     <!-- LEFT -->
-    <div class="footer-left">
-      <a href="404.html" class="logo-link">
-        <h2 class="logo">STAC<span>KLY</span></h2>
-      </a>
+<div class="footer-left">
+  <a href="home.html" class="logo-link">
+    <img src="logo.webp" alt="Stackly Logo" class="footer-logo">
+  </a>
+
 
       <p class="desc">
         We provide innovative solutions to drive growth, streamline operations, & achieve your goals.
       </p>
 
-      <a href="404.html" class="location-title">24/7 Our Location</a>
+      <p class="location-title">24/7 Our Location</p>
       <p class="location">132, Tic St, Kingston, New York 12401 USA.</p>
     </div>
 
@@ -1948,13 +1949,13 @@ window.addEventListener("scroll", () => {
         <div class="newsletter-text">
           <i class="fa-regular fa-envelope"></i>
           <h3>
-            <a href="404.html">Take The First Step<br> Towards Cyber Resilience</a>
+            Take The First Step<br> Towards Cyber Resilience
           </h3>
         </div>
 
         <div class="newsletter-input">
           <input type="email" placeholder="Email Address">
-          <a href="404.html">
+          <a href="#">
             <i class="fa-solid fa-paper-plane"></i>
           </a>
         </div>
@@ -1966,25 +1967,41 @@ window.addEventListener("scroll", () => {
       <!-- BOTTOM -->
       <div class="footer-bottom">
 
+        <!-- QUICK LINKS -->
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <a href="home.html">Home</a>
+          <a href="about.html">About Us</a>
+          <a href="services.html">Services</a>
+          <a href="portfolio.html">Portfolio</a>
+          <a href="blog.html">Contact</a>
+        </div>
+
+        <!-- ACCOUNT -->
+        <div class="footer-links">
+          <h4>Account</h4>
+          <div class="footer-buttons">
+            <a href="login.html" class="footer-login-btn">Login</a>
+            <a href="signin.html" class="footer-signup-btn">Sign Up</a>
+          </div>
+        </div>
+
         <!-- CONTACT -->
-        <div class="contact">
-          <h4><a href="404.html">Contact Us</a></h4>
-          <a href="404.html" class="phone">+(528) 456-7592</a>
-          <br>
-          <a href="404.html">info@lockhive.com</a>
+        <div class="footer-links">
+          <h4>Contact</h4>
+          <a href="#" class="phone">+(528) 456-7592</a>
+          <a href="#">info@lockhive.com</a>
         </div>
 
         <!-- SOCIAL -->
-        <div class="social">
-          <h4><a href="404.html">Social Links</a></h4>
-
+        <div class="footer-links">
+          <h4>Social</h4>
           <div class="icons">
-            <a href="404.html"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="404.html"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="404.html"><i class="fa-brands fa-instagram"></i></a>
-            <a href="404.html"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
           </div>
-
         </div>
 
       </div>
@@ -1995,20 +2012,17 @@ window.addEventListener("scroll", () => {
 
 </footer>
 <style>
-    .footer a{
-  text-decoration:none;
-  color:inherit;
-}
-
-.footer a:hover{
-  color:#c36cff;
-}/* FOOTER */
+  /* FOOTER */
 .footer{
   background:#0a0b14;
   color:#fff;
   padding:100px 8%;
 }
-
+.footer-logo{
+  width:150px;   /* adjust size */
+  object-fit:contain;
+  margin-bottom:15px;
+}
 /* LAYOUT */
 .footer-container{
   display:flex;
@@ -2017,17 +2031,10 @@ window.addEventListener("scroll", () => {
 }
 
 /* LEFT */
-.footer-left{
-  flex:1;
-}
+.footer-left{flex:1;}
 
-.logo{
-  font-size:30px;
-}
-
-.logo span{
-  color:#c36cff;
-}
+.logo{font-size:30px;}
+.logo span{color:#c36cff;}
 
 .desc{
   color:#aaa;
@@ -2035,19 +2042,11 @@ window.addEventListener("scroll", () => {
   max-width:350px;
 }
 
-.location-title{
-  color:#c36cff;
-  margin-top:20px;
-}
-
-.location{
-  color:#ccc;
-}
+.location-title{color:#c36cff;}
+.location{color:#ccc;}
 
 /* RIGHT */
-.footer-right{
-  flex:1.5;
-}
+.footer-right{flex:1.5;}
 
 /* TOP */
 .footer-top{
@@ -2068,11 +2067,6 @@ window.addEventListener("scroll", () => {
   color:#c36cff;
 }
 
-.newsletter-text h3{
-  font-size:22px;
-}
-
-/* INPUT */
 .newsletter-input{
   display:flex;
   align-items:center;
@@ -2092,7 +2086,6 @@ window.addEventListener("scroll", () => {
 
 .newsletter-input i{
   color:#c36cff;
-  cursor:pointer;
 }
 
 /* LINE */
@@ -2107,23 +2100,50 @@ window.addEventListener("scroll", () => {
 .footer-bottom{
   display:flex;
   justify-content:space-between;
+  flex-wrap:wrap;
+  gap:30px;
 }
 
-/* CONTACT */
-.contact h4{
+/* LINKS */
+.footer-links h4{
   margin-bottom:10px;
 }
 
-.phone{
-  font-size:22px;
-  margin-bottom:5px;
+.footer-links a{
+  display:block;
+  margin:6px 0;
+  color:#ccc;
+  text-decoration:none;
+}
+
+.footer-links a:hover{
+  color:#c36cff;
+}
+
+/* 🔥 FOOTER BUTTONS (FIXED) */
+.footer-buttons{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+
+.footer-login-btn{
+  padding:8px 15px;
+  border:1px solid #c36cff;
+  border-radius:20px;
+  color:#c36cff;
+  text-decoration:none;
+}
+
+.footer-signup-btn{
+  padding:8px 15px;
+  background:#c36cff;
+  border-radius:20px;
+  color:#fff;
+  text-decoration:none;
 }
 
 /* SOCIAL */
-.social h4{
-  margin-bottom:10px;
-}
-
 .icons{
   display:flex;
   gap:15px;
@@ -2137,7 +2157,6 @@ window.addEventListener("scroll", () => {
   display:flex;
   align-items:center;
   justify-content:center;
-  cursor:pointer;
   transition:0.3s;
 }
 
@@ -2164,7 +2183,6 @@ window.addEventListener("scroll", () => {
 
   .footer-bottom{
     flex-direction:column;
-    gap:20px;
   }
 }
 </style>
