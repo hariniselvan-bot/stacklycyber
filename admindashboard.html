@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Stackly Admin Dashboard</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- MAP -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins;}
+body{display:flex;background:#020617;color:#fff;overflow-x:hidden;}
+
+/* SIDEBAR */
+.sidebar{
+width:250px;height:100vh;background:#0f172a;
+padding:20px;position:fixed;
+display:flex;flex-direction:column;justify-content:space-between;
+transition:.3s;z-index:1000;
+}
+.logo img{width:120px;margin-bottom:20px;}
+
+.sidebar a{
+display:block;padding:12px;margin:6px 0;
+color:#aaa;text-decoration:none;border-radius:8px;
+}
+.sidebar a.active,.sidebar a:hover{
+background:#1e293b;color:#fff;
+}
+
+/* BACK */
+.back-btn{
+background:#ef4444;padding:10px;text-align:center;
+border-radius:8px;cursor:pointer;
+}
+
+/* MAIN */
+.main{margin-left:250px;width:100%;padding:15px;}
+
+/* TOPBAR */
+.topbar{
+display:flex;align-items:center;gap:15px;margin-bottom:15px;
+}
+
+/* HAMBURGER */
+.hamburger{
+width:42px;height:42px;
+display:none;flex-direction:column;justify-content:center;align-items:center;
+background:#0f172a;border-radius:12px;border:1px solid #1e293b;
+cursor:pointer;
+}
+.hamburger span{
+width:22px;height:3px;background:#fff;margin:3px 0;
+}
+
+/* OVERLAY */
+.overlay{
+position:fixed;top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,0.6);
+display:none;z-index:999;
+}
+.overlay.active{display:block;}
+
+/* CARDS */
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:15px;margin-bottom:20px;
+}
+.card{
+background:#0f172a;padding:15px;border-radius:12px;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:15px;
+}
+.chart-card{
+background:#0f172a;padding:15px;border-radius:12px;height:300px;
+}
+canvas{width:100%!important;height:100%!important;}
+
+#map{height:300px;border-radius:12px;}
+
+/* ADVANCED */
+.advanced-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;margin-top:20px;
+}
+.adv-card{
+background:#0f172a;padding:15px;border-radius:12px;
+}
+
+/* RISK BAR */
+.risk-bar{
+display:flex;height:10px;border-radius:10px;overflow:hidden;margin:10px 0;
+}
+.low{background:#22c55e;flex:1;}
+.medium{background:#f59e0b;flex:1;}
+.high{background:#ef4444;flex:1;}
+
+/* GAUGE */
+.circle{
+width:120px;height:120px;margin:auto;
+border-radius:50%;
+background:conic-gradient(#22c55e 0% 60%,#f59e0b 60% 85%,#ef4444 85%);
+display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+
+/* BARS */
+.bar{height:8px;background:#1e293b;border-radius:10px;margin:8px 0;}
+.bar span{display:block;height:100%;background:#22c55e;border-radius:10px;}
+
+/* MOBILE */
+@media(max-width:768px){
+.hamburger{display:flex;}
+.sidebar{left:-100%;}
+.sidebar.active{left:0;}
+.main{margin-left:0;}
+.grid{grid-template-columns:1fr;}
+.advanced-grid{grid-template-columns:1fr;}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+
+<div>
+<div class="logo"><img src="logo.webp"></div>
+
+<a href="admindashboard.html"class="active">Dashboard</a>
+<a href="logs.html">LOGIN</a>
+<a href="atten.html">attendence</a>
+<a href="neet.html" >neetness</a>
+<a href="meeting.html">meetings</a>
+<a href="data.html">data</a>
+</div>
+
+<div class="back-btn" onclick="location.href='login.html'">← Back</div>
+
+</div>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- MAIN -->
+<div class="main">
+
+<div class="topbar">
+<div class="hamburger" onclick="toggleSidebar(this)">
+<span></span><span></span><span></span>
+</div>
+<h3>Admin Dashboard</h3>
+</div>
+
+<!-- CARDS -->
+<div class="cards">
+<div class="card"><h3>2745</h3><p>Users</p></div>
+<div class="card"><h3>1245</h3><p>Logins</p></div>
+<div class="card"><h3>980</h3><p>Sessions</p></div>
+<div class="card"><h3>320</h3><p>Devices</p></div>
+<div class="card"><h3>1980</h3><p>Active Users</p></div>
+<div class="card"><h3>320</h3><p>Signups</p></div>
+<div class="card"><h3>$12K</h3><p>Revenue</p></div>
+<div class="card"><h3>112</h3><p>Errors</p></div>
+<div class="card"><h3>18</h3><p>Alerts</p></div>
+<div class="card"><h3>76%</h3><p>Server</p></div>
+</div>
+
+<!-- CHART + MAP -->
+<div class="grid">
+
+<div class="chart-card">
+<canvas id="lineChart"></canvas>
+</div>
+
+<div id="map"></div>
+
+</div>
+
+<!-- ADVANCED PANELS -->
+<div class="advanced-grid">
+
+<div class="adv-card">
+<h4>Risk Level</h4>
+<div class="risk-bar">
+<div class="low"></div>
+<div class="medium"></div>
+<div class="high"></div>
+</div>
+</div>
+
+<div class="adv-card">
+<h4>Risk Score</h4>
+<div class="circle">
+<h2>98%</h2>
+<p>HIGH</p>
+</div>
+</div>
+
+<div class="adv-card">
+<h4>Alerts</h4>
+<p>Critical: <b style="color:#ef4444;">138</b></p>
+<p>High: <b style="color:#f59e0b;">96%</b></p>
+<p>Bots: <b style="color:#22c55e;">68%</b></p>
+</div>
+
+<div class="adv-card">
+<h4>System Health</h4>
+<div class="bar"><span style="width:95%"></span></div>
+<div class="bar"><span style="width:94%"></span></div>
+<div class="bar"><span style="width:99%"></span></div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* SIDEBAR */
+function toggleSidebar(btn){
+sidebar.classList.toggle("active");
+overlay.classList.toggle("active");
+}
+function closeSidebar(){
+sidebar.classList.remove("active");
+overlay.classList.remove("active");
+}
+
+/* CHART */
+new Chart(lineChart,{
+type:'line',
+data:{
+labels:["Jan","Feb","Mar","Apr"],
+datasets:[{data:[200,400,300,600],borderColor:"#22c55e"}]
+},
+options:{responsive:true,maintainAspectRatio:false}
+});
+
+/* MAP */
+var map=L.map('map',{zoomControl:false}).setView([20,0],2);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
+
+</script>
+
+</body>
+</html>

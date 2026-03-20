@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cyber Security Loader</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* RESET */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins', sans-serif;
+}
+
+body{
+  background:#0a0a0f;
+  color:#fff;
+}
+
+/* ========================= */
+/* 🔥 LOADER */
+/* ========================= */
+#loader{
+  position:fixed;
+  inset:0;
+  background:#05070d;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  transition:0.5s;
+}
+
+/* BOX */
+.loader-box{
+  text-align:center;
+}
+
+/* LOGO */
+.logo-text{
+  font-size:42px;
+  letter-spacing:2px;
+  margin-bottom:20px;
+}
+
+.logo-text span{
+  color:#c36cff;
+  text-shadow:0 0 15px #c36cff;
+}
+
+/* SCANNER */
+.scanner{
+  width:260px;
+  height:150px;
+  border:1px solid rgba(255,255,255,0.1);
+  margin:auto;
+  position:relative;
+  overflow:hidden;
+  border-radius:10px;
+  box-shadow:0 0 20px rgba(195,108,255,0.2);
+}
+
+/* SCAN LINE */
+.scan-line{
+  position:absolute;
+  width:100%;
+  height:3px;
+  background:#c36cff;
+  box-shadow:0 0 10px #c36cff;
+  animation:scan 2s linear infinite;
+}
+
+@keyframes scan{
+  0%{top:0;}
+  100%{top:100%;}
+}
+
+/* TEXT */
+.loading-text{
+  margin:20px 0 10px;
+  font-size:14px;
+  color:#aaa;
+  animation:blink 1.5s infinite;
+}
+
+@keyframes blink{
+  0%,100%{opacity:1;}
+  50%{opacity:0.5;}
+}
+
+/* PROGRESS */
+.progress{
+  width:260px;
+  height:6px;
+  background:#111;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#c36cff,#ff5edf);
+  animation:load 3s linear forwards;
+}
+
+@keyframes load{
+  0%{width:0;}
+  100%{width:100%;}
+}
+
+/* ========================= */
+/* 🔥 MAIN CONTENT */
+/* ========================= */
+.main{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+  text-align:center;
+}
+
+.main h1{
+  font-size:40px;
+  color:#c36cff;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+
+  <div class="loader-box">
+
+    <h1 class="logo-text">CYBER<span>SEC</span></h1>
+
+    <div class="scanner">
+      <div class="scan-line"></div>
+    </div>
+
+    <p class="loading-text">Initializing Security...</p>
+
+    <div class="progress">
+      <div class="progress-bar"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+/* LOADER + REDIRECT */
+window.addEventListener("load", () => {
+
+  setTimeout(() => {
+
+    const loader = document.getElementById("loader");
+
+    /* fade out */
+    loader.style.opacity = "0";
+    loader.style.pointerEvents = "none";
+
+    /* redirect after fade */
+    setTimeout(() => {
+      window.location.href = "home.html";
+    }, 500);
+
+  }, 2500); // loading time
+
+});
+
+</script>
+
+</body>
+</html>

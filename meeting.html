@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Meetings Dashboard</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins;}
+body{display:flex;background:#020617;color:#fff;overflow-x:hidden;}
+
+/* SIDEBAR */
+.sidebar{
+width:250px;height:100vh;background:#0f172a;
+padding:20px;position:fixed;
+display:flex;flex-direction:column;justify-content:space-between;
+z-index:1000;
+}
+.logo img{width:120px;margin-bottom:20px;}
+
+.sidebar a{
+display:block;padding:12px;margin:6px 0;
+color:#aaa;text-decoration:none;border-radius:8px;
+}
+.sidebar a.active,.sidebar a:hover{
+background:#1e293b;color:#fff;
+}
+
+/* BACK */
+.back-btn{
+background:#ef4444;padding:10px;text-align:center;
+border-radius:8px;cursor:pointer;
+}
+
+/* MAIN */
+.main{margin-left:250px;width:100%;padding:15px;}
+
+/* TOPBAR */
+.topbar{
+display:flex;align-items:center;gap:15px;margin-bottom:15px;
+}
+
+/* HAMBURGER */
+.hamburger{
+width:42px;height:42px;
+display:none;flex-direction:column;justify-content:center;align-items:center;
+background:#0f172a;border-radius:12px;border:1px solid #1e293b;
+cursor:pointer;
+}
+.hamburger span{
+width:22px;height:3px;background:#fff;margin:3px 0;
+}
+
+/* OVERLAY */
+.overlay{
+position:fixed;top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,0.6);
+display:none;z-index:999;
+}
+.overlay.active{display:block;}
+
+/* CARDS */
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:15px;margin-bottom:20px;
+}
+.card{
+background:#0f172a;padding:15px;border-radius:12px;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:15px;
+}
+.chart-card{
+background:#0f172a;padding:15px;border-radius:12px;height:300px;
+}
+canvas{width:100%!important;height:100%!important;}
+
+/* TABLE */
+.table{
+margin-top:20px;
+background:#0f172a;
+padding:15px;
+border-radius:12px;
+overflow:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:10px;
+border-bottom:1px solid #1e293b;
+text-align:left;
+}
+
+th{color:#aaa;}
+
+.status{
+padding:4px 8px;
+border-radius:6px;
+font-size:12px;
+}
+.completed{background:#22c55e;}
+.pending{background:#f59e0b;}
+.cancelled{background:#ef4444;}
+
+/* ADVANCED */
+.advanced-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;margin-top:20px;
+}
+.adv-card{
+background:#0f172a;padding:15px;border-radius:12px;
+}
+
+/* BARS */
+.bar{height:8px;background:#1e293b;border-radius:10px;margin:8px 0;}
+.bar span{display:block;height:100%;background:#22c55e;border-radius:10px;}
+
+/* CIRCLE */
+.circle{
+width:120px;height:120px;margin:auto;
+border-radius:50%;
+background:conic-gradient(#22c55e 0% 75%,#ef4444 75%);
+display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+.hamburger{display:flex;}
+.sidebar{left:-100%;}
+.sidebar.active{left:0;}
+.main{margin-left:0;}
+.grid{grid-template-columns:1fr;}
+.advanced-grid{grid-template-columns:1fr;}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+
+<div>
+<div class="logo"><img src="logo.webp"></div>
+
+<a href="admindashboard.html">Dashboard</a>
+<a href="logs.html">Login</a>
+<a href="atten.html">Attendance</a>
+<a href="neet.html">Neatness</a>
+<a href="meeting.html" class="active">Meetings</a>
+<a href="data.html">Data</a>
+</div>
+
+<div class="back-btn" onclick="location.href='login.html'">← Back</div>
+
+</div>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- MAIN -->
+<div class="main">
+
+<div class="topbar">
+<div class="hamburger" onclick="toggleSidebar(this)">
+<span></span><span></span><span></span>
+</div>
+<h3>Meetings Dashboard</h3>
+</div>
+
+<!-- CARDS -->
+<div class="cards">
+<div class="card"><h3>45</h3><p>Total Meetings</p></div>
+<div class="card"><h3>30</h3><p>Completed</p></div>
+<div class="card"><h3>10</h3><p>Pending</p></div>
+<div class="card"><h3>5</h3><p>Cancelled</p></div>
+</div>
+
+<!-- CHART -->
+<div class="grid">
+
+<div class="chart-card">
+<canvas id="meetingChart"></canvas>
+</div>
+
+<div class="chart-card">
+<canvas id="pieChart"></canvas>
+</div>
+
+</div>
+
+<!-- TABLE -->
+<div class="table">
+
+<h4>Meeting Schedule</h4>
+
+<table>
+<tr>
+<th>Title</th>
+<th>Date</th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td>Project Review</td>
+<td>20 Mar</td>
+<td><span class="status completed">Completed</span></td>
+</tr>
+
+<tr>
+<td>Team Sync</td>
+<td>21 Mar</td>
+<td><span class="status pending">Pending</span></td>
+</tr>
+
+<tr>
+<td>Client Call</td>
+<td>22 Mar</td>
+<td><span class="status cancelled">Cancelled</span></td>
+</tr>
+
+</table>
+
+</div>
+
+<!-- ADVANCED -->
+<div class="advanced-grid">
+
+<div class="adv-card">
+<h4>Attendance Rate</h4>
+<div class="circle">
+<h2>85%</h2>
+<p>GOOD</p>
+</div>
+</div>
+
+<div class="adv-card">
+<h4>Productivity</h4>
+<div class="bar"><span style="width:85%"></span></div>
+<div class="bar"><span style="width:78%"></span></div>
+<div class="bar"><span style="width:90%"></span></div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* SIDEBAR */
+function toggleSidebar(btn){
+sidebar.classList.toggle("active");
+overlay.classList.toggle("active");
+}
+function closeSidebar(){
+sidebar.classList.remove("active");
+overlay.classList.remove("active");
+}
+
+/* CHART */
+new Chart(meetingChart,{
+type:'line',
+data:{
+labels:["Mon","Tue","Wed","Thu","Fri"],
+datasets:[{data:[5,8,6,10,9],borderColor:"#22c55e"}]
+},
+options:{responsive:true,maintainAspectRatio:false}
+});
+
+new Chart(pieChart,{
+type:'doughnut',
+data:{
+labels:["Completed","Pending","Cancelled"],
+datasets:[{data:[70,20,10]}]
+}
+});
+
+</script>
+
+</body>
+</html>

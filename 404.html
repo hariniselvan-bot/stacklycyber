@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>404 - Access Denied</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+/* RESET */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#05070d;
+color:#00fff7;
+overflow:hidden;
+position:relative;
+}
+
+/* GRID BACKGROUND */
+body::before{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:
+linear-gradient(#0ff1 1px, transparent 1px),
+linear-gradient(90deg,#0ff1 1px, transparent 1px);
+background-size:40px 40px;
+z-index:0;
+}
+
+/* SCAN LINE */
+.scan{
+position:absolute;
+top:0;
+width:100%;
+height:2px;
+background:#00fff7;
+box-shadow:0 0 10px #00fff7;
+animation:scan 3s linear infinite;
+}
+
+@keyframes scan{
+0%{top:0}
+100%{top:100%}
+}
+
+/* CONTAINER */
+.error-box{
+position:relative;
+z-index:2;
+text-align:center;
+max-width:600px;
+animation:fadeIn 1.2s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(30px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+/* GLITCH TEXT */
+.error-code{
+font-size:120px;
+font-weight:800;
+position:relative;
+color:#00fff7;
+}
+
+.error-code::before,
+.error-code::after{
+content:"404";
+position:absolute;
+left:0;
+top:0;
+width:100%;
+}
+
+.error-code::before{
+color:#ff00ff;
+animation:glitch1 0.6s infinite;
+}
+
+.error-code::after{
+color:#00ff9f;
+animation:glitch2 0.6s infinite;
+}
+
+@keyframes glitch1{
+0%{transform:translate(2px,0)}
+50%{transform:translate(-2px,2px)}
+100%{transform:translate(2px,-1px)}
+}
+
+@keyframes glitch2{
+0%{transform:translate(-2px,0)}
+50%{transform:translate(2px,-2px)}
+100%{transform:translate(-1px,2px)}
+}
+
+/* ICON */
+.icon{
+font-size:60px;
+margin-bottom:15px;
+color:#00fff7;
+animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-10px)}
+}
+
+/* TEXT */
+.error-title{
+font-size:26px;
+margin:10px 0;
+}
+
+.error-text{
+color:#94a3b8;
+margin-bottom:30px;
+}
+
+/* BUTTON */
+.home-btn{
+display:inline-block;
+padding:14px 30px;
+border-radius:30px;
+text-decoration:none;
+color:#00fff7;
+border:1px solid #00fff7;
+transition:0.3s;
+position:relative;
+overflow:hidden;
+cursor:pointer;
+}
+
+/* GLOW EFFECT */
+.home-btn::before{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+top:0;
+left:-100%;
+background:linear-gradient(120deg,transparent,#00fff7,transparent);
+transition:0.5s;
+}
+
+.home-btn:hover::before{
+left:100%;
+}
+
+.home-btn:hover{
+box-shadow:0 0 20px #00fff7,0 0 40px #00fff7;
+}
+
+/* MESSAGE (if no history) */
+.no-history{
+margin-top:15px;
+font-size:14px;
+color:#ff4d6d;
+display:none;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+.error-code{font-size:80px;}
+.error-title{font-size:20px;}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SCAN LINE -->
+<div class="scan"></div>
+
+<div class="error-box">
+
+<div class="icon">
+<i class="fa-solid fa-shield-halved"></i>
+</div>
+
+<div class="error-code">404</div>
+
+<h2 class="error-title">ACCESS DENIED</h2>
+
+<p class="error-text">
+The page you are trying to access does not exist or has been removed.
+</p>
+
+<!-- GO BACK BUTTON -->
+<a onclick="goBack()" class="home-btn">
+  <i class="fa fa-arrow-left"></i> Go Back
+</a>
+
+<p class="no-history" id="msg">No previous page found</p>
+
+</div>
+
+<script>
+
+/* GO BACK FUNCTION (FINAL FIX) */
+function goBack(){
+  if(window.history.length > 1){
+    window.history.back();
+  } else {
+    document.getElementById("msg").style.display = "block";
+  }
+}
+
+</script>
+
+</body>
+</html>
