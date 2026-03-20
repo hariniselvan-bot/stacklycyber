@@ -20,10 +20,15 @@ body{display:flex;background:#020617;color:#fff;overflow-x:hidden;}
 
 /* SIDEBAR */
 .sidebar{
-width:250px;height:100vh;background:#0f172a;
-padding:20px;position:fixed;
-display:flex;flex-direction:column;justify-content:space-between;
-transition:.3s;z-index:1000;
+width:250px;
+height:100vh;
+background:#0f172a;
+padding:20px;
+position:fixed;
+display:flex;
+flex-direction:column;
+transition:.3s;
+z-index:1000;
 }
 .logo img{width:140px;margin-bottom:20px;}
 
@@ -167,7 +172,14 @@ border-radius:12px;
 .chart-container{height:250px;}
 
 }
-
+.back-btn{
+background:#ef4444;
+padding:10px;
+text-align:center;
+border-radius:8px;
+cursor:pointer;
+margin-top:12px;
+}
 </style>
 </head>
 
@@ -176,21 +188,22 @@ border-radius:12px;
 <!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
 
-<div>
 <div class="logo">
-<img src="logo.webp">
+  <img src="logo.webp">
 </div>
 
-<a href="userdashboard.html"class="active">Dashboard</a>
+<a href="userdashboard.html" class="active">Dashboard</a>
 <a href="userss.html">Users</a>
 <a href="loginss.html">Logins</a>
-<a href="devicess.html" >Devices</a>
+<a href="devicess.html">Devices</a>
 <a href="sessionss.html">Sessions</a>
 <a href="settingss.html">Settings</a>
-</div>
 
+<!-- ✅ MOVE HERE -->
 <div class="back-btn" onclick="location.href='login.html'">
 ← Back
+</div>
+
 </div>
 
 </div>

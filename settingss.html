@@ -11,49 +11,111 @@
 <style>
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins;}
-body{display:flex;background:#020617;color:#fff;overflow-x:hidden;}
 
-.sidebar{
-width:250px;height:100vh;background:#0f172a;
-padding:20px;position:fixed;
-display:flex;flex-direction:column;justify-content:space-between;
+body{
+display:flex;
+background:#020617;
+color:#fff;
+overflow-x:hidden;
 }
 
-.logo img{width:140px;margin-bottom:20px;}
+/* SIDEBAR */
+.sidebar{
+width:250px;
+height:100vh;
+background:#0f172a;
+padding:20px;
+position:fixed;
+display:flex;
+flex-direction:column;
+transition:0.3s;
+}
+
+.logo img{
+width:140px;
+margin-bottom:20px;
+}
+
+/* MENU */
+.menu{
+flex:1;
+}
 
 .sidebar a{
-display:block;padding:12px;margin:6px 0;
-color:#aaa;text-decoration:none;border-radius:8px;
+display:block;
+padding:12px;
+margin:6px 0;
+color:#aaa;
+text-decoration:none;
+border-radius:8px;
 }
 
 .sidebar a.active{
-background:#1e293b;color:#fff;
+background:#1e293b;
+color:#fff;
 }
 
-.main{margin-left:250px;width:100%;padding:15px;}
+/* BACK BUTTON */
+.back-btn{
+margin-top:10px;
+background:#ef4444;
+color:#fff;
+padding:12px;
+border-radius:8px;
+text-align:center;
+cursor:pointer;
+font-weight:600;
+transition:0.3s;
+}
 
+.back-btn:hover{
+background:#dc2626;
+}
+
+/* MAIN */
+.main{
+margin-left:250px;
+width:100%;
+padding:15px;
+}
+
+/* TOPBAR */
 .topbar{
-display:flex;align-items:center;gap:15px;margin-bottom:15px;
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:15px;
 }
 
+/* HAMBURGER */
 .hamburger{
-width:42px;height:42px;display:none;
-flex-direction:column;justify-content:center;align-items:center;
-cursor:pointer;background:#0f172a;border-radius:12px;
+width:42px;
+height:42px;
+display:none;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+cursor:pointer;
+background:#0f172a;
+border-radius:12px;
 border:1px solid #1e293b;
 }
 
 .hamburger span{
-width:22px;height:3px;background:#fff;margin:3px 0;
+width:22px;
+height:3px;
+background:#fff;
+margin:3px 0;
 }
 
-/* SETTINGS CARDS */
+/* SETTINGS GRID */
 .settings-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:15px;
 }
 
+/* CARD */
 .card{
 background:#0f172a;
 padding:20px;
@@ -69,6 +131,7 @@ border:none;
 border-radius:8px;
 background:#020617;
 color:#fff;
+outline:none;
 }
 
 /* BUTTON */
@@ -80,6 +143,11 @@ border-radius:8px;
 color:#fff;
 cursor:pointer;
 margin-top:10px;
+transition:0.3s;
+}
+
+.btn:hover{
+background:#16a34a;
 }
 
 /* TOGGLE */
@@ -91,11 +159,26 @@ margin:10px 0;
 
 /* MOBILE */
 @media(max-width:768px){
-.sidebar{left:-100%;}
-.sidebar.active{left:0;}
-.main{margin-left:0;}
-.settings-grid{grid-template-columns:1fr;}
+
 .hamburger{display:flex;}
+
+.sidebar{
+left:-100%;
+z-index:1000;
+}
+
+.sidebar.active{
+left:0;
+}
+
+.main{
+margin-left:0;
+}
+
+.settings-grid{
+grid-template-columns:1fr;
+}
+
 }
 
 </style>
@@ -106,21 +189,23 @@ margin:10px 0;
 <!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
 
-<div>
 <div class="logo">
 <img src="logo.webp">
 </div>
 
+<div class="menu">
 <a href="userdashboard.html">Dashboard</a>
 <a href="userss.html">Users</a>
 <a href="loginss.html">Logins</a>
 <a href="devicess.html">Devices</a>
 <a href="sessionss.html">Sessions</a>
 <a href="settingss.html" class="active">Settings</a>
-</div>
 
+<!-- BACK BUTTON -->
 <div class="back-btn" onclick="location.href='login.html'">
 ← Back
+</div>
+
 </div>
 
 </div>
@@ -129,7 +214,7 @@ margin:10px 0;
 <div class="main">
 
 <div class="topbar">
-<div class="hamburger" onclick="toggleSidebar(this)">
+<div class="hamburger" onclick="toggleSidebar()">
 <span></span><span></span><span></span>
 </div>
 <h3>Settings</h3>
@@ -191,10 +276,23 @@ margin:10px 0;
 
 <script>
 
-function toggleSidebar(btn){
+/* SIDEBAR FIX */
+const sidebar = document.getElementById("sidebar");
+
+function toggleSidebar(){
 sidebar.classList.toggle("active");
-btn.classList.toggle("active");
 }
+
+/* CLICK OUTSIDE CLOSE */
+document.addEventListener("click", function(e){
+if(
+sidebar.classList.contains("active") &&
+!sidebar.contains(e.target) &&
+!e.target.closest(".hamburger")
+){
+sidebar.classList.remove("active");
+}
+});
 
 </script>
 
